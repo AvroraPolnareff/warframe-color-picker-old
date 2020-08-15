@@ -1,40 +1,50 @@
-import React, {createRef, useEffect, useRef, useState} from 'react';
-import {palettes} from './palettes.js'
-import {SketchPicker} from 'react-color'
+import React, { createRef, useEffect, useRef, useState } from 'react';
+import { palettes } from './palettes.js'
+import { SketchPicker } from 'react-color'
+import styled, { ThemeProvider } from 'styled-components';
+import { defaultTheme } from "./themes"
 
 const App = () => {
     const [colorResults, setColorResults] = useState([])
-    const [color, setColor] = useState({hex: "#000000"})
+    const [color, setColor] = useState({ hex: "#000000" })
     const [chosenColor, setChosenColor] = useState({})
     const [limit, setLimit] = useState(5)
     const ref = useRef()
 
     const onColorChange = (c) => {
-        const {r, g, b} = c.rgb
+        const { r, g, b } = c.rgb
         setColor(c)
         setColorResults(findClosestColors(r, g, b, palettes, limit))
     }
 
     return (
-        <div className="App">
-            <div style={{display: "flex", justifyContent: "space-around"}}>
-                <div>
-                    <canvas id='picker' ref={ref}/>
+        <ThemeProvider theme={defaultTheme}>
+            <StyledApp>
+                <div style={{ display: "flex", justifyContent: "space-around" }}>
+                    <div>
+                        <canvas id='picker' ref={ref} />
 
-                    <SketchPicker onChangeComplete={onColorChange} color={color.hex} disableAlpha={true}/>
-                    <label>limit</label>
-                    <input name="limit" onChange={(e) => setLimit(e.target.value)} value={limit} type="number"/>
-                    <ColorsList colors={colorResults} chosenColor={setChosenColor}/>
+                        <SketchPicker onChangeComplete={onColorChange} color={color.hex} disableAlpha={true} />
+                        <label>limit</label>
+                        <input name="limit" onChange={(e) => setLimit(e.target.value)} value={limit} type="number" />
+                        <ColorsList colors={colorResults} chosenColor={setChosenColor} />
+                    </div>
+                    {chosenColor.name ? <WarframePalette size={30} pickedColor={chosenColor} /> : ''}
                 </div>
-                {chosenColor.name ? <WarframePalette size={30} pickedColor={chosenColor}/> : ''}
-            </div>
 
 
-        </div>
+            </StyledApp>
+        </ThemeProvider>
     );
 }
 
-const ColorsList = ({colors, chosenColor}) => {
+export const StyledApp = styled.div`
+    font-family: "Gilroy";
+    font-size: 12px;
+    font-weight: 700;
+`
+
+const ColorsList = ({ colors, chosenColor }) => {
 
 
     return (
@@ -42,9 +52,9 @@ const ColorsList = ({colors, chosenColor}) => {
             {colors.map((color, index) => {
                 const hexColor = rgbToHex(color.color.r, color.color.g, color.color.b,)
                 return (<li key={index} onClick={() => chosenColor(colors[index])}>
-                        <span
-                            style={{backgroundColor: hexColor, color: hexColor}}
-                        >***</span>
+                    <span
+                        style={{ backgroundColor: hexColor, color: hexColor }}
+                    >***</span>
                     name: {color.name}, position: x = {color.position.x + 1}, y = {color.position.y + 1},
                     distance: {Math.floor(color.distance * 100) / 100}
                 </li>)
@@ -53,7 +63,7 @@ const ColorsList = ({colors, chosenColor}) => {
     )
 }
 
-const WarframePalette = ({size, pickedColor}) => {
+const WarframePalette = ({ size, pickedColor }) => {
     const canvasRef = useRef(null)
 
     useEffect(() => {
@@ -84,15 +94,15 @@ const WarframePalette = ({size, pickedColor}) => {
 
     return (
         <div>
-            <div style={{borderStyle: "solid none solid none"}}>
+            <div style={{ borderStyle: "solid none solid none" }}>
                 <h2
-                    style={{wordWrap:"break-word", maxWidth: 5 * size, textAlign: "center"}}
+                    style={{ wordWrap: "break-word", maxWidth: 5 * size, textAlign: "center" }}
                 >
                     SELECTED COLOR
                 </h2>
 
             </div>
-            <canvas ref={canvasRef} width={5 * size} height={18 * size} style={{maxHeight: 18 * size}}/>
+            <canvas ref={canvasRef} width={5 * size} height={18 * size} style={{ maxHeight: 18 * size }} />
         </div>
     )
 }
@@ -107,7 +117,7 @@ const findClosestColors = (r, g, b, palettes, limit) => {
             const currentColor = color.color
             const currentPosition = color.position
             const distance = colorDistance(r, g, b, currentColor.r, currentColor.g, currentColor.b)
-            return {distance, color: currentColor, position: currentPosition, name: palette.name}
+            return { distance, color: currentColor, position: currentPosition, name: palette.name }
         })
     })
 
