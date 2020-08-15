@@ -4,6 +4,7 @@ import { SuggestionsHeader } from "./assets/SuggestionsHeader"
 import { Window } from "./shared/Window"
 import { Divider } from "./shared/Divider"
 import { ColorCell } from "./shared/ColorCell"
+import { Badge } from './shared/Badge'
 
 
 export const Suggestions = () => {
@@ -56,17 +57,6 @@ const StyledSuggestion = styled.div`
     padding-bottom: 0.3rem;
 `
 
-const Badge = styled.div`
-    display: flex;
-    align-items: center;
-    background-color: ${props => props.theme.badges};
-    color: ${props => props.theme.badgesText};
-    padding: 0.1rem 0.3rem;
-    margin: 0 0.2rem;
-    border-radius: 0.4rem;
-    font-weight: 600;
-
-`
 const ColorBadge = styled.div`
     display: flex;
     align-items: center;
