@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Button } from '../components/shared/Button';
+import { Button } from './Button';
 
 export default {
-  title: 'shared/Button',
+  title: 'Example/Button',
   component: Button,
   argTypes: {
     backgroundColor: { control: 'color' },
@@ -23,3 +23,14 @@ Secondary.args = {
   label: 'Button',
 };
 
+export const Large = Template.bind({});
+Large.args = {
+  size: 'large',
+  label: 'Button',
+};
+
+export const Small = Template.bind({});
+Small.args = {
+  size: 'small',
+  label: 'Button',
+};

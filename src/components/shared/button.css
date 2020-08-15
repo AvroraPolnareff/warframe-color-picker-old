@@ -1,0 +1,36 @@
+.button {
+    font-family: 'Gilroy', sans-serif;
+    color: white;
+    font-weight: 500;
+    border: 0;
+    border-radius: 1em;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1;
+    font-size: 14px;
+    padding: 6px 14px;
+    text-transform: uppercase;
+  }
+
+
+.button--primary {
+    background-color: #a5e8e8;
+    transition: border-radius 0.25s linear;
+    border-radius: 3em;
+}
+.button--secondary {
+    background-color: #e8dfa5;
+    transition: border-radius 0.25s linear;
+    border-radius: 0.5em;
+}
+
+
+@keyframes primary {
+    from {border-radius: 1em;}
+    to {border-radius: 3em;}
+}  
+
+@keyframes secondary {
+    from {border-radius: 3em;}
+    to {border-radius: 1em;}
+}
