@@ -1,35 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createRef, useEffect, useRef, useState} from 'react';
 import {palettes} from './palettes.js'
 import {SketchPicker} from 'react-color'
-
-const findClosestColors = (r, g, b, palettes, limit) => {
-
-    const distances = palettes.map(palette => {
-        const paletteDistances = palette.palette.map((color) => {
-            const currentColor = color.color
-            const currentPosition = color.position
-            const distance = colorDistance(r, g, b, currentColor.r, currentColor.g, currentColor.b)
-            return {distance, color: currentColor, position: currentPosition, name: palette.name}
-        })
-        return paletteDistances
-    })
-
-    return distances.flat(1).sort((a, b) => a.distance - b.distance).slice(0, limit)
-}
-
-const colorDistance = (r1, g1, b1, r2, g2, b2) => {
-    return Math.sqrt((r2 - r1) ** 2 + (g2 - g1) ** 2 + (b2 - b1) ** 2)
-}
 
 const App = () => {
     const [colorResults, setColorResults] = useState([])
     const [color, setColor] = useState({hex: "#000000"})
     const [chosenColor, setChosenColor] = useState({})
     const [limit, setLimit] = useState(5)
-    const [red, setRed] = useState(0)
-    const [green, setGreen] = useState(0)
-    const [blue, setBlue] = useState(0)
-    const canvasRef = useRef(null)
+    const ref = useRef()
 
     const onColorChange = (c) => {
         const {r, g, b} = c.rgb
@@ -37,17 +15,18 @@ const App = () => {
         setColorResults(findClosestColors(r, g, b, palettes, limit))
     }
 
-
     return (
         <div className="App">
-            <div style={{display:"flex", justifyContent: "space-around"}}>
+            <div style={{display: "flex", justifyContent: "space-around"}}>
                 <div>
-                    <SketchPicker onChangeComplete={onColorChange} color={color.hex} disableAlpha={true} />
+                    <canvas id='picker' ref={ref}/>
+
+                    <SketchPicker onChangeComplete={onColorChange} color={color.hex} disableAlpha={true}/>
                     <label>limit</label>
                     <input name="limit" onChange={(e) => setLimit(e.target.value)} value={limit} type="number"/>
                     <ColorsList colors={colorResults} chosenColor={setChosenColor}/>
                 </div>
-                {chosenColor.name ? <WarframePalette size={30} pickedColor={chosenColor}/> : <div></div>}
+                {chosenColor.name ? <WarframePalette size={30} pickedColor={chosenColor}/> : ''}
             </div>
 
 
@@ -103,14 +82,41 @@ const WarframePalette = ({size, pickedColor}) => {
         }
     })
 
-    return <canvas
-        ref={canvasRef}
-        width={5 * size}
-        height={18 * size}
-        style={{maxHeight: 18 * size}}
-    />
+    return (
+        <div>
+            <div style={{borderStyle: "solid none solid none"}}>
+                <h2
+                    style={{wordWrap:"break-word", maxWidth: 5 * size, textAlign: "center"}}
+                >
+                    SELECTED COLOR
+                </h2>
+
+            </div>
+            <canvas ref={canvasRef} width={5 * size} height={18 * size} style={{maxHeight: 18 * size}}/>
+        </div>
+    )
 }
 
+
+//helper functions
+
+const findClosestColors = (r, g, b, palettes, limit) => {
+
+    const distances = palettes.map(palette => {
+        return palette.palette.map((color) => {
+            const currentColor = color.color
+            const currentPosition = color.position
+            const distance = colorDistance(r, g, b, currentColor.r, currentColor.g, currentColor.b)
+            return {distance, color: currentColor, position: currentPosition, name: palette.name}
+        })
+    })
+
+    return distances.flat(1).sort((a, b) => a.distance - b.distance).slice(0, limit)
+}
+
+const colorDistance = (r1, g1, b1, r2, g2, b2) => {
+    return Math.sqrt((r2 - r1) ** 2 + (g2 - g1) ** 2 + (b2 - b1) ** 2)
+}
 
 function componentToHex(c) {
     let hex = c.toString(16);
