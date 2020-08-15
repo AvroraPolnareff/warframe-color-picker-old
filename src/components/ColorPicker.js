@@ -2,6 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 import { Window } from "./shared/Window"
 import { Badge } from "./shared/Badge"
+import { Divider } from "./shared/Divider"
 import picker from "./assets/picker.png"
 
 
@@ -10,7 +11,6 @@ export const ColorPicker = () => {
         <Window style={{ margin: "0 100px 0 0" }} >
             <FlexColumnCentred>
                 <FlexRow>
-
                     <HeaderWrapper>
                         <div  >
                             <HeaderColor>COLOR</HeaderColor>
@@ -20,13 +20,53 @@ export const ColorPicker = () => {
                     <Badge>#000000</Badge>
                 </FlexRow>
                 <PickerImg src={picker} />
+                <Divider/>
+                <PickerRGB/>
+                <PickerHSL/>
             </FlexColumnCentred>
+            
         </Window>
     )
 }
 
-const PickerImg = styled.img`
+const PickerRGB = () => {
+    return (
+        <StyledPicker>
+            <ColorSchemeName>RGB</ColorSchemeName>
+            <Badge color="#dba3a3">255</Badge>
+            <Badge color="#a3dba3">255</Badge>
+            <Badge color="#a3a3db">255</Badge>
+        </StyledPicker>
+    )
+}
+
+const PickerHSL = () => {
+    return (
+        <StyledPicker style={{marginRight: "2.35rem"}}>
+            <ColorSchemeName>HSL</ColorSchemeName>
+            <Badge >255</Badge>
+            <Badge >255</Badge>
+            <Badge >255</Badge>
+        </StyledPicker>
+    )
+}
+
+const ColorSchemeName = styled.div`
+    padding-right: 0.3em
+` 
+
+const StyledPicker = styled.div`
+    margin-top: 0.3em;
+    margin-right: 3em;
+    display: flex;
+    align-items: center;
+    font-size: 14px
 `
+
+const PickerImg = styled.img`
+    margin-bottom: 0.5em;
+`
+
 
 const FlexColumnCentred = styled.div`
     display: flex;
