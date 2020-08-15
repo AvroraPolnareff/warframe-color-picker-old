@@ -8,4 +8,8 @@ export const defaultTheme = {
   targetSchemeHeader: "#e8a5a5",
   defaultButtonColor: "#a5e8e8",
   manualButtonColor: "#e8dfa5",
+
+  //Suggestions
+  badges: "#dadada",
+  badgesText: "#ffffff",
 }

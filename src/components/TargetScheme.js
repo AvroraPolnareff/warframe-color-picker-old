@@ -3,6 +3,7 @@ import styled, {withTheme} from "styled-components"
 import {Window} from "./shared/Window"
 import {Button} from "./shared/Button"
 import {ColorCell} from "./shared/ColorCell"
+import {Divider} from "./shared/Divider"
 
 const TargetScheme = ({theme}) => {
     return (
@@ -21,13 +22,6 @@ const TargetScheme = ({theme}) => {
     )
 }
 
-const Divider = styled.div`
-    margin: 0.2rem 0;
-    background-color: #ebebeb;
-    width: 95%;
-    height: 2px;
-    border-radius: 2px;
-`
 
 
 
@@ -76,6 +70,7 @@ const StyledColorEntry = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
+    padding-bottom: 0.2rem;
 `
 
 const Content = styled.div`

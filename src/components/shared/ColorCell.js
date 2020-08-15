@@ -7,7 +7,7 @@ export const ColorCell = styled.div`
     background-color: ${props => props.color || "#000000"};
     height: 0.9rem;
     margin: 0 0.2rem;
-    margin-bottom: 0.2rem;
+    
     width: 1.1rem;
     border-radius: 0.55rem;
     /*box-shadow: 
