@@ -1,6 +1,6 @@
 import React from 'react';
-import { Window } from '../../components/shared/Window';
-import { Wrapper } from './Wrapper';
+import { Window } from '../../../components/shared/Window';
+import { Wrapper } from '../Wrapper';
 
 
 export default {

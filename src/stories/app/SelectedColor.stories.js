@@ -1,25 +1,27 @@
 import React from 'react';
-import { ColorCell } from '../../components/shared/ColorCell';
+import { SelectedColor } from '../../components/SelectedColor';
 import { Wrapper } from './Wrapper';
 
 
 export default {
-    title: 'shared/ColorCell',
-    component: ColorCell,
+    title: 'app/SelectedColor',
+    component: SelectedColor,
     argTypes: {
-        color: {control: 'color'}
+
     },
 };
 
 const Template = (args) => (
     <Wrapper>
-        <ColorCell {...args} />
+        <SelectedColor {...args} >
+        </SelectedColor>
     </Wrapper>
 )
 
 
 export const Normal = Template.bind({});
 Normal.args = {
-    color: 'red'
+
+
 };
 

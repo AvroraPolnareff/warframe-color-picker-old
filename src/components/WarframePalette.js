@@ -34,14 +34,6 @@ export const WarframePalette = ({ size, pickedColor }) => {
 
     return (
         <div>
-            <div style={{ borderStyle: "solid none solid none" }}>
-                <h2
-                    style={{ wordWrap: "break-word", maxWidth: 5 * size, textAlign: "center" }}
-                >
-                    SELECTED COLOR
-                </h2>
-
-            </div>
             <canvas ref={canvasRef} width={5 * size} height={18 * size} style={{ maxHeight: 18 * size }} />
         </div>
     );

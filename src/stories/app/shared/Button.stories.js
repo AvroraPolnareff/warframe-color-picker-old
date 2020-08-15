@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '../../components/shared/Button';
-import { Wrapper } from './Wrapper';
+import { Button } from '../../../components/shared/Button';
+import { Wrapper } from '../Wrapper';
 
 export default {
   title: 'shared/Button',
