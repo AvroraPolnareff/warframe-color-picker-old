@@ -22,7 +22,10 @@ const Template = (args) => (
 
 export const Normal = Template.bind({});
 Normal.args = {
-
-
+    matchedColors: [
+        {name: "Classic", color: "#992020", difference: 1},
+        {name: "Agony", color: "#991020", difference: 3},
+        {name: "Classic", color: "#999920", difference: 100}
+    ]
 };
 

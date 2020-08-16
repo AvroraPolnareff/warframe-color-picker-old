@@ -1,40 +1,37 @@
 import React from 'react'
-import styled, { withTheme } from "styled-components"
-import { SuggestionsHeader } from "./assets/SuggestionsHeader"
-import { Window } from "./shared/Window"
-import { Divider } from "./shared/Divider"
-import { ColorCell } from "./shared/ColorCell"
-import { Badge } from './shared/Badge'
+import styled, {withTheme} from "styled-components"
+import {SuggestionsHeader} from "./assets/SuggestionsHeader"
+import {Window} from "./shared/Window"
+import {Divider} from "./shared/Divider"
+import {ColorCell} from "./shared/ColorCell"
+import {Badge} from './shared/Badge'
 
 
-export const Suggestions = () => {
+export const Suggestions = ({matchedColors}) => {
     return (
 
         <Window>
             <Content>
-                <SuggestionsHeader />
+                <SuggestionsHeader/>
                 <ItalicText>SCROLL FOR MORE!</ItalicText>
             </Content>
-            <Divider />
-            <Suggestion color="black" name="classic" value="99%" />
-            <Suggestion color="black" name="classic" value="99%" />
-            <Suggestion color="black" name="classic" value="99%" />
-            <Suggestion color="black" name="classic" value="99%" />
-            <Suggestion color="black" name="classic" value="99%" />
-            <Suggestion color="black" name="classic" value="99%" />
-            <Suggestion color="black" name="classic" value="99%" />
-            <Suggestion color="black" name="classic" value="99%" />
-            <Suggestion color="black" name="classic" value="99%" />
+            <Divider/>
+            {
+                matchedColors.map(({color, name, difference}) => (
+                    <Suggestion color={color} name={name} value={Math.round(100 - difference) + "%"}/>
+                ))
+            }
+
         </Window>
     )
 }
 
-const Suggestion = ({ color, name, value }) => {
+const Suggestion = ({color, name, value}) => {
     return (
         <StyledSuggestion>
             <FlexCentred>
                 <ColorBadge>
-                    <ColorCell color={color} />
+                    <ColorCell color={color}/>
                 </ColorBadge>
                 <Badge>
                     {name}
@@ -75,8 +72,8 @@ const FlexCentred = styled.div`
 `
 
 const ItalicText = styled.div`
-    font-style: "italic";
-    font-weight: "medium"
+    font-style: italic;
+    font-weight: 400;
 `
 const Content = styled.div`
     display: flex;
