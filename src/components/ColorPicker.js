@@ -1,7 +1,6 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from "styled-components"
 import {Window} from "./shared/Window"
-import {Badge} from "./shared/Badge"
 import {Divider} from "./shared/Divider"
 import picker from "./assets/picker.png"
 import Color from "color"
@@ -20,9 +19,8 @@ export const ColorPicker = () => {
                         </div>
                     </HeaderWrapper>
                     <HexInput
-                        maxlength="7" type={"text"}
-                        spellcheck={"false"} value={color.hex().toString()}
-                        onChange={(e) => setColor(Color().hex(e.target.value))}
+                         color={color}
+                         onChange={(e) => setColor(Color().hex(e.target.value))}
                     />
                 </FlexRow>
                 <PickerImg src={picker}/>
@@ -33,10 +31,49 @@ export const ColorPicker = () => {
     )
 }
 
-const HexInput = styled.input`
+const HexInput = ({onChange, color }) => {
+    const [validHex, setValidHex] = useState(true)
+    const [inputField, setInputField] = useState("#909090")
+    const [userTyping, setUserTyping] = useState(false)
+    const [timer, setTimer ] = useState(0)
+    const [onChangeTimeout, setOnChangeTimeout] = useState(0)
+
+    useEffect(() => {
+        if (!userTyping) {
+            setInputField(color.hex())
+            setValidHex(true)
+        }
+    },[color])
+
+    const changeHex = e => {
+        clearTimeout(timer)
+        clearTimeout(onChangeTimeout)
+        setTimer(setTimeout(() =>setUserTyping(false), 1000))
+        try {
+            Color().hex(e.target.value)
+            setValidHex(true)
+            e.persist()
+            setInputField(e.target.value)
+            setOnChangeTimeout(setTimeout(() => onChange(e), 2000))
+        } catch (error) {
+            setValidHex(false)
+            setInputField(e.target.value)
+        }
+    }
+
+    return (
+        <StyledHexInput
+            maxlength="7" type={"text"}
+            spellcheck={"false"} value={inputField}
+            onChange={changeHex} valid={validHex}
+        />
+    )
+}
+
+const StyledHexInput = styled.input`
     display: flex;
     align-items: center;
-    background-color: ${props => props.color || props.theme.badges};
+    background-color: ${props => props.valid ? props.theme.badges : "#dba3a3"};
     color: ${props => props.theme.badgesText};
     padding: 0.1rem 0.3rem;
     max-height: 1.2rem;
@@ -126,23 +163,12 @@ const Grid2X4 = styled.div`
     
 `
 
-const PickerHSL = () => {
-    return (
-        <StyledPicker style={{marginRight: "2.35rem"}}>
-
-        </StyledPicker>
-    )
-}
-
 const ColorSchemeName = styled.div`
     padding-right: 0.3em
 `
 
 const StyledPicker = styled.div`
     margin-top: 0.3em;
-    //margin-right: 3em;
-    //display: flex;
-    //align-items: center;
     font-size: 14px
 `
 
