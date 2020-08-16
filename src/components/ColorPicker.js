@@ -50,11 +50,14 @@ const HexInput = ({onChange, color }) => {
         clearTimeout(onChangeTimeout)
         setTimer(setTimeout(() =>setUserTyping(false), 1000))
         try {
-            Color().hex(e.target.value)
-            setValidHex(true)
-            e.persist()
-            setInputField(e.target.value)
-            setOnChangeTimeout(setTimeout(() => onChange(e), 2000))
+            if (e.target.value.length <= 7) {
+                Color().hex(e.target.value)
+                setValidHex(true)
+                e.persist()
+                setInputField(e.target.value)
+                setOnChangeTimeout(setTimeout(() => onChange(e), 2000))
+            }
+
         } catch (error) {
             setValidHex(false)
             setInputField(e.target.value)
@@ -63,7 +66,7 @@ const HexInput = ({onChange, color }) => {
 
     return (
         <StyledHexInput
-            maxlength="7" type={"text"}
+            maxlength={7} type={"text"}
             spellcheck={"false"} value={inputField}
             onChange={changeHex} valid={validHex}
         />
@@ -120,9 +123,9 @@ const NumbersPicker = ({color, onColorChange}) => {
         <StyledPicker>
             <Grid2X4>
                 <ColorSchemeName>RGB</ColorSchemeName>
-                <ColorInput name={"red"} onChange={onChange} color="#dba3a3" value={color.red()}/>
-                <ColorInput name={"green"} onChange={onChange} color="#a3dba3" value={color.green()}/>
-                <ColorInput name={"blue"} onChange={onChange} color="#a3a3db" value={color.blue()}/>
+                <ColorInput min={0} max={255} name={"red"} onChange={onChange} color="#dba3a3" value={color.red()}/>
+                <ColorInput min={0} max={255} name={"green"} onChange={onChange} color="#a3dba3" value={color.green()}/>
+                <ColorInput min={0} max={255} name={"blue"} onChange={onChange} color="#a3a3db" value={color.blue()}/>
                 <ColorSchemeName>HSL</ColorSchemeName>
                 <ColorInput name={"hue"} onChange={onChange} value={Math.round(color.hsl().color[0])}/>
                 <ColorInput name={"saturation"} onChange={onChange} value={Math.round(color.hsl().color[1])}/>
@@ -160,7 +163,6 @@ const Grid2X4 = styled.div`
     justify-content: start;
     margin-right: 2.6rem;
     margin-left: 1rem;
-    
 `
 
 const ColorSchemeName = styled.div`

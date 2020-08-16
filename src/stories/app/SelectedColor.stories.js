@@ -21,7 +21,7 @@ const Template = (args) => (
 
 export const Normal = Template.bind({});
 Normal.args = {
-
-
+    paletteName: "Classic",
+    colorPosition: {x:0, y:10}
 };
 
